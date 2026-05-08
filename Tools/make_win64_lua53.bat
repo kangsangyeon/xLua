@@ -17,10 +17,10 @@ if "%__VSVER%" neq "" (
 	set __VS=Visual Studio %__VSVER:~0,2% %__VSDisplay%
 )
 
-mkdir build64 & pushd build64
-cmake -G "%__VS%" -A x64 ..\src\xLua.Native
+mkdir ..\build\intermediates\build64 & pushd ..\build\intermediates\build64
+cmake -G "%__VS%" -A x64 ..\..\..\src\xLua.Native
 popd
-cmake --build build64 --config Release
+cmake --build ..\build\intermediates\build64 --config Release
 md ..\build\plugin_lua53\Plugins\x86_64
-copy /Y build64\Release\xlua.dll ..\build\plugin_lua53\Plugins\x86_64\xlua.dll
+copy /Y ..\build\intermediates\build64\Release\xlua.dll ..\build\plugin_lua53\Plugins\x86_64\xlua.dll
 pause

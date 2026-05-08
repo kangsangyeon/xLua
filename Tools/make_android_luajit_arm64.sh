@@ -3,7 +3,7 @@
 #fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-SRCDIR=$DIR/luajit-2.1.0b3
+SRCDIR=$DIR/../src/xLua.Native/luajit-2.1.0b3
 # ANDROID_NDK=~/android-ndk-r10e
 
 OS=`uname -s`
@@ -25,12 +25,12 @@ make clean
 make HOST_CC="gcc -m64" CROSS=$NDKP TARGET_SYS=Linux TARGET_FLAGS="$NDKF $NDKARCH"
 
 cd "$DIR"
-mkdir -p build_lj_v8a && cd build_lj_v8a
-cmake -DUSING_LUAJIT=ON -DANDROID_ABI=arm64-v8a -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-clang -DANDROID_NATIVE_API_LEVEL=android-21 ../src/xLua.Native/
+mkdir -p ../build/intermediates/build_lj_v8a && pushd ../build/intermediates/build_lj_v8a
+cmake -DUSING_LUAJIT=ON -DANDROID_ABI=arm64-v8a -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-clang -DANDROID_NATIVE_API_LEVEL=android-21 ../../../src/xLua.Native/
 cd "$DIR"
-cmake --build build_lj_v8a --config Release
+cmake --build ../build/intermediates/build_lj_v8a --config Release
 mkdir -p ../build/plugin_luajit/Plugins/Android/libs/arm64-v8a/
-cp build_lj_v8a/libxlua.so ../build/plugin_luajit/Plugins/Android/libs/arm64-v8a/libxlua.so
+cp ../build/intermediates/build_lj_v8a/libxlua.so ../build/plugin_luajit/Plugins/Android/libs/arm64-v8a/libxlua.so
 
 
 echo "Building armv7 lib"
@@ -43,12 +43,12 @@ make clean
 make HOST_CC="gcc -m32" CROSS=$NDKP TARGET_SYS=Linux TARGET_FLAGS="$NDKF $NDKARCH"
 
 cd "$DIR"
-mkdir -p build_lj_v7a && cd build_lj_v7a
-cmake -DUSING_LUAJIT=ON -DANDROID_ABI=armeabi-v7a -DCMAKE_TOOLCHAIN_FILE=../cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.9 -DANDROID_NATIVE_API_LEVEL=android-21 ../src/xLua.Native/
+mkdir -p ../build/intermediates/build_lj_v7a && pushd ../build/intermediates/build_lj_v7a
+cmake -DUSING_LUAJIT=ON -DANDROID_ABI=armeabi-v7a -DCMAKE_TOOLCHAIN_FILE=../../../src/xLua.Native/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.9 -DANDROID_NATIVE_API_LEVEL=android-21 ../../../src/xLua.Native/
 cd "$DIR"
-cmake --build build_lj_v7a --config Release
+cmake --build ../build/intermediates/build_lj_v7a --config Release
 mkdir -p ../build/plugin_luajit/Plugins/Android/libs/armeabi-v7a/
-cp build_lj_v7a/libxlua.so ../build/plugin_luajit/Plugins/Android/libs/armeabi-v7a/libxlua.so
+cp ../build/intermediates/build_lj_v7a/libxlua.so ../build/plugin_luajit/Plugins/Android/libs/armeabi-v7a/libxlua.so
 
 echo "Building x86 lib"
 NDKVER=$ANDROID_NDK/toolchains/x86-4.9
@@ -59,10 +59,10 @@ make clean
 make HOST_CC="gcc -m32" CROSS=$NDKP TARGET_SYS=Linux TARGET_FLAGS="$NDKF"
 
 cd "$DIR"
-mkdir -p build_lj_x86 && cd build_lj_x86
-cmake -DUSING_LUAJIT=ON -DANDROID_ABI=x86 -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=x86-clang -DANDROID_NATIVE_API_LEVEL=android-21 ../src/xLua.Native/
+mkdir -p ../build/intermediates/build_lj_x86 && pushd ../build/intermediates/build_lj_x86
+cmake -DUSING_LUAJIT=ON -DANDROID_ABI=x86 -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=x86-clang -DANDROID_NATIVE_API_LEVEL=android-21 ../../../src/xLua.Native/
 cd "$DIR"
-cmake --build build_lj_x86 --config Release
+cmake --build ../build/intermediates/build_lj_x86 --config Release
 mkdir -p ../build/plugin_luajit/Plugins/Android/libs/x86/
-cp build_lj_x86/libxlua.so ../build/plugin_luajit/Plugins/Android/libs/x86/libxlua.so
+cp ../build/intermediates/build_lj_x86/libxlua.so ../build/plugin_luajit/Plugins/Android/libs/x86/libxlua.so
 

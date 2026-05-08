@@ -19,18 +19,18 @@ if "%__VSVER%" neq "" (
 )
 
 
-mkdir build64_54 & pushd build64_54
-cmake -DLUA_VERSION=5.4.1 -G "%__VS%" -A x64  ..\src\xLua.Native
+mkdir ..\build\intermediates\build64_54 & pushd ..\build\intermediates\build64_54
+cmake -DLUA_VERSION=5.4.1 -G "%__VS%" -A x64  ..\..\..\src\xLua.Native
 popd
-cmake --build build64_54 --config Release
+cmake --build ..\build\intermediates\build64_54 --config Release
 md ..\build\plugin_lua54\Plugins\x86_64
-copy /Y build64_54\Release\xlua.dll ..\build\plugin_lua54\Plugins\x86_64\xlua.dll
+copy /Y ..\build\intermediates\build64_54\Release\xlua.dll ..\build\plugin_lua54\Plugins\x86_64\xlua.dll
 
-mkdir build32_54 & pushd build32_54
-cmake -DLUA_VERSION=5.4.1 -G "%__VS%" -A Win32 ..\src\xLua.Native
+mkdir ..\build\intermediates\build32_54 & pushd ..\build\intermediates\build32_54
+cmake -DLUA_VERSION=5.4.1 -G "%__VS%" -A Win32 ..\..\..\src\xLua.Native
 popd
-cmake --build build32_54 --config Release
+cmake --build ..\build\intermediates\build32_54 --config Release
 md ..\build\plugin_lua54\Plugins\x86
-copy /Y build32_54\Release\xlua.dll ..\build\plugin_lua54\Plugins\x86\xlua.dll
+copy /Y ..\build\intermediates\build32_54\Release\xlua.dll ..\build\plugin_lua54\Plugins\x86\xlua.dll
 
 pause

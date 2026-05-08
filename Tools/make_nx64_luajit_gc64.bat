@@ -2,7 +2,7 @@ set CUR_DIR=%~dp0
 cd %CUR_DIR%
 
 del /s/q buildnx64
-mkdir buildnx64 & pushd buildnx64
+mkdir ..\build\intermediates\buildnx64 & pushd ..\build\intermediates\buildnx64
 rem fix for io_tmpfile & os_tmpname
 echo #if !__ASSEMBLER__ > switch_fix.h
 echo static inline struct _IO_FILE* tmpfile(){ return 0; } >> switch_fix.h
@@ -22,7 +22,7 @@ bash -c "make clean"
 bash -c "make -C src TARGET_CC=\"%COMPILER% %SWITCH_CFLAGS% %FIX_FLAGS%\" TARGET_LD=%COMPILER% BUILDMODE=static TARGET_SYS=switch CFLAGS=\"%LUAJIT_CFLAGS%\" libluajit.a"
 popd
 
-pushd buildnx64
+pushd ..\build\intermediates\buildnx64
 set "NINTENDO_SDK_ROOT_CMAKE=%NINTENDO_SDK_ROOT:\=/%"
 cmake -DCMAKE_C_COMPILER="%NINTENDO_SDK_ROOT_CMAKE%/Compilers/NX/nx/aarch64/bin/clang.exe" ^
 	-DCMAKE_CXX_COMPILER="%NINTENDO_SDK_ROOT_CMAKE%/Compilers/NX/nx/aarch64/bin/clang++.exe" ^
@@ -30,9 +30,9 @@ cmake -DCMAKE_C_COMPILER="%NINTENDO_SDK_ROOT_CMAKE%/Compilers/NX/nx/aarch64/bin/
 	-DUSING_LUAJIT=ON ^
 	..
 popd
-cmake --build buildnx64 --config Release
+cmake --build ..\build\intermediates\buildnx64 --config Release
 mkdir ..\build\plugin_luajit\Plugins\Switch
-copy /Y buildnx64\libxlua.a ..\build\plugin_luajit\Plugins\Switch\libxlua.a
+copy /Y ..\build\intermediates\buildnx64\libxlua.a ..\build\plugin_luajit\Plugins\Switch\libxlua.a
 copy /Y luajit-2.1.0b3\src\libluajit.a ..\build\plugin_luajit\Plugins\Switch\libluajit.a
 
 rem may need to set package.cpath = "" in lua

@@ -46,12 +46,12 @@ then
 else
     mv libxlua64.a libluajit.a
 fi
-cd ../src/xLua.Native/..
+popd/../src/xLua.Native/..
 
-mkdir -p build_lj_ios && cd build_lj_ios
-cmake -DUSING_LUAJIT=ON  -DCMAKE_TOOLCHAIN_FILE=../cmake/ios.toolchain.cmake -DPLATFORM=OS64  -GXcode ../src/xLua.Native/
-cd ..
-cmake --build build_lj_ios --config Release
+mkdir -p ../build/intermediates/build_lj_ios && pushd ../build/intermediates/build_lj_ios
+cmake -DUSING_LUAJIT=ON  -DCMAKE_TOOLCHAIN_FILE=../../../src/xLua.Native/cmake/ios.toolchain.cmake -DPLATFORM=OS64  -GXcode ../../../src/xLua.Native/
+popd
+cmake --build ../build/intermediates/build_lj_ios --config Release
 
 mkdir -p ../build/plugin_luajit/Plugins/iOS/
 libtool -static -o ../build/plugin_luajit/Plugins/iOS/libxlua.a build_lj_ios/Release-iphoneos/libxlua.a luajit-2.1.0b3/src/libluajit.a

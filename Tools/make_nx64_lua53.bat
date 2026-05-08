@@ -2,7 +2,7 @@ set CUR_DIR=%~dp0
 cd %CUR_DIR%
 
 del /s/q buildnx64
-mkdir buildnx64 & pushd buildnx64
+mkdir ..\build\intermediates\buildnx64 & pushd ..\build\intermediates\buildnx64
 rem fix for io_tmpfile & os_tmpname
 echo #if !__ASSEMBLER__ > switch_fix.h
 echo static inline struct _IO_FILE* tmpfile(){ return 0; } >> switch_fix.h
@@ -16,9 +16,9 @@ cmake -DCMAKE_C_COMPILER="%NINTENDO_SDK_ROOT_CMAKE%/Compilers/NX/nx/aarch64/bin/
 	-DCMAKE_C_FLAGS="-includeswitch_fix.h -I%CUR_DIR%buildnx64" ^
 	..
 popd
-cmake --build buildnx64 --config Release
+cmake --build ..\build\intermediates\buildnx64 --config Release
 mkdir ..\build\plugin_lua53\Plugins\Switch
-copy /Y buildnx64\libxlua.a ..\build\plugin_lua53\Plugins\Switch\libxlua.a
+copy /Y ..\build\intermediates\buildnx64\libxlua.a ..\build\plugin_lua53\Plugins\Switch\libxlua.a
 
 rem may need to set package.cpath = "" in lua
 rem as any read attempt to undefined location will crash
